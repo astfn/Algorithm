@@ -15,7 +15,7 @@
       function toBinary(number) {
         let stack = new Stack();
 
-        while (number > 0) {
+        while (number >= 1) {
           stack.push(number % 2);
           number = Math.floor(number / 2);
         }
