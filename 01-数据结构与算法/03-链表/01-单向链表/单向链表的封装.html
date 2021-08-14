@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>单向链表的封装</title>
+  </head>
+  <body>
+    <script>
+      function LinkedList() {
+        //头部指针
+        this.head = null;
+        //记录长度
+        this.length = 0;
+      }
+      //各个节点类
+      function Node(data) {
+        this.data = data;
+        this.next = null;
+      }
+      /*
+        增
+      */
+      LinkedList.prototype.append = function (ele) {
+        let newNode = new Node(ele);
+        if (!this.head) {
+          this.head = newNode;
+        } else {
+          let current = this.head;
+          while (current.next) {
+            current = current.next;
+          }
+          current.next = newNode;
+        }
+
+        this.length++;
+        return newNode;
+      };
+      LinkedList.prototype.insert = function (position, ele) {
+        let newNode = new Node(ele);
+
+        if (position === 0) {
+          newNode.next = this.head;
+          this.head = newNode;
+        } else {
+          let index = 0;
+          let current = this.head;
+          let previous = null;
+          while (index++ < position) {
+            previous = current;
+            current = current.next;
+          }
+          newNode.next = previous.next;
+          previous.next = newNode;
+        }
+        this.length++;
+        return this.size();
+      };
+      /*
+        其它
+      */
+      LinkedList.prototype.size = function () {
+        return this.length;
+      };
+      LinkedList.prototype.toString = function () {
+        let currnet = this.head;
+        let result = "";
+        while (currnet) {
+          result += currnet.next ? `${currnet.data} ` : `${currnet.data}`;
+          currnet = currnet.next;
+        }
+        return result;
+      };
+
+      {
+        let ll = new LinkedList();
+        ll.append(123);
+        ll.append("Ashun");
+        ll.append("Ashuntefannao");
+        ll.insert(0, "shun");
+        ll.insert(0, "ashun");
+        ll.insert(1, "ASHUN");
+
+        console.log(ll.size());
+        console.log(ll);
+        console.log(ll.toString());
+      }
+    </script>
+  </body>
+</html>
