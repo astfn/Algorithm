@@ -35,9 +35,12 @@
         }
 
         this.length++;
-        return newNode;
+        return this.size();
       };
       LinkedList.prototype.insert = function (position, ele) {
+        if (position < 0 || position > this.length) {
+          return false;
+        }
         let newNode = new Node(ele);
 
         if (position === 0) {
@@ -58,24 +61,142 @@
         return this.size();
       };
       /*
+        删
+      */
+
+      LinkedList.prototype.removeAt = function (position) {
+        if (position < 0 || position >= this.length) {
+          return false;
+        }
+        let current = this.head;
+        let previous = null;
+        let next = null;
+        let index = 0;
+
+        while (index < position) {
+          previous = current;
+          current = current.next;
+          next = current.next;
+          index++;
+        }
+        if (index === 0) {
+          if (this.length === 1) {
+            this.head = null;
+          } else {
+            next = this.head.next;
+            this.head.next = null;
+            this.head = next;
+          }
+        } else {
+          current.next = null;
+          previous.next = next;
+        }
+        this.length--;
+        return current.data;
+      };
+      //借助其它方法实现remove
+      LinkedList.prototype.remove = function (ele) {
+        let index = this.indexOf(ele);
+        return index === -1 ? false : this.removeAt(index);
+      };
+      // // 独立实现remove
+      // LinkedList.prototype.remove = function (ele) {
+      //   let current = this.head;
+      //   let previous = null;
+      //   let next = null;
+      //   let index = 0;
+      //   while (current && current.data != ele) {
+      //     previous = current;
+      //     current = current.next;
+      //     next = current.next;
+      //     index++;
+      //   }
+      //   if (!current) {
+      //     return false;
+      //   } else {
+      //     if (index === 0) {
+      //       if (this.length === 1) {
+      //         this.head = null;
+      //       } else {
+      //         next = this.head.next;
+      //         this.head.next = null;
+      //         this.head = next;
+      //       }
+      //     } else {
+      //       current.next = null;
+      //       previous.next = next;
+      //     }
+      //     this.length--;
+      //     return current.data;
+      //   }
+      // };
+      /*
+        改
+      */
+      LinkedList.prototype.update = function (position, newEle) {
+        if (position < 0 || position >= this.length) {
+          return false;
+        }
+        let current = this.head;
+        let index = 0;
+        while (index++ < position) {
+          current = current.next;
+        }
+        current.data = newEle;
+        return true;
+      };
+      /*
+        查
+      */
+      LinkedList.prototype.get = function (position) {
+        if (position < 0 || position >= this.length) {
+          return null;
+        }
+        let current = this.head;
+        let index = 0;
+        while (index++ < position) {
+          current = current.next;
+        }
+        return current.data;
+      };
+      LinkedList.prototype.indexOf = function (ele) {
+        let current = this.head;
+        let index = 0;
+        while (current && current.data !== ele) {
+          current = current.next;
+          index++;
+        }
+        if (!current) {
+          return -1;
+        } else {
+          return index;
+        }
+      };
+      /*
         其它
       */
       LinkedList.prototype.size = function () {
         return this.length;
       };
+      LinkedList.prototype.isEmpty = function () {
+        return this.length === 0;
+      };
       LinkedList.prototype.toString = function () {
-        let currnet = this.head;
+        let current = this.head;
         let result = "";
-        while (currnet) {
-          result += currnet.next ? `${currnet.data} ` : `${currnet.data}`;
-          currnet = currnet.next;
+        while (current) {
+          result += current.next ? `${current.data} ` : `${current.data}`;
+          current = current.next;
         }
         return result;
       };
 
       {
         let ll = new LinkedList();
+        console.log(ll.isEmpty());
         ll.append(123);
+        console.log(ll.isEmpty());
+
         ll.append("Ashun");
         ll.append("Ashuntefannao");
         ll.insert(0, "shun");
@@ -84,6 +205,13 @@
 
         console.log(ll.size());
         console.log(ll);
+        console.log(ll.toString());
+        console.log(ll.get(5));
+        console.log(ll.indexOf("Ashuntefannao"));
+        console.log(ll.update(5, "ASHUNTEFANNAO"));
+        console.log(ll.toString());
+        console.log(ll.remove("ASHUNTEFANNAO"));
+
         console.log(ll.toString());
       }
     </script>
