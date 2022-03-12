@@ -75,7 +75,7 @@ export default function strStr(haystack, needle) {
 export default function strStr(haystack, needle) {
   if (needle === "") return 0;
   for (let i = 0; i <= haystack.length - needle.length; i++) {
-    let str = haystack.slice(i, i + needle.length);
+    let str = haystack.substr(i, needle.length);
     if (str === needle) return i;
   }
   return -1;
